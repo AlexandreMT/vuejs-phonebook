@@ -9,3 +9,4 @@ Route::get('/phonebook/{name}', function (){
 })->where('name', '[A-Za-z]+');
 
 Route::resource('phonebook', 'PhonebookController');
+Route::get('getData', 'PhonebookController@getData');

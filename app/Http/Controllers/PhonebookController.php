@@ -13,6 +13,10 @@ class PhonebookController extends Controller
         return view('phonebook');
     }
 
+    public function getData(){
+        return Phonebook::orderBy('name','ASC')->get();
+    }
+
     public function create()
     {
         //

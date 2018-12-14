@@ -15,9 +15,9 @@
                     </span>
                 </p>
             </div>
-            <a class="panel-block is-active">
+            <a class="panel-block" v-for="item, key in lists">
                 <span class="column is-9">
-                    bulma
+                    {{ item.name }}
                 </span>
                 <span class="panel-icon column is-1">
                     <i class="has-text-danger fa fa-trash" aria-hidden="true"></i>
@@ -42,10 +42,16 @@
 
         data(){
             return {
-                addActive : ''
+                addActive : '',
+                lists: {},
+                errors:{}
             }
         },
-
+        mounted(){
+            axios.get('/getData').
+            then((response)=> this.lists = response.data)
+                .catch((error) => this.errors = error.response.data.errors);
+        },
         methods:{
             openAdd(){
                 this.addActive = 'is-active';
