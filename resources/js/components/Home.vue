@@ -101,14 +101,28 @@
             },
 
             del(key,id){
-                if(confirm("Are you sure?")){
-                    this.loading = !this.loading;
-                    axios.delete('/phonebook/' + id).
-                    then((response)=> {
-                        this.lists.splice(key,1);
+                this.$swal({
+                    title: 'Tem certeza?',
+                    text: 'Não será possível voltar atrás.',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sim, deletar!',
+                    cancelButtonText: 'Não, cancele!',
+                    showCloseButton: true,
+                    showLoaderOnConfirm: true
+                }).then((result) => {
+                    if(result.value) {
                         this.loading = !this.loading;
-                    }).catch((error) => this.errors = error.response.data.errors);
-                }
+                        axios.delete('/phonebook/' + id).
+                        then((response)=> {
+                            this.lists.splice(key,1);
+                            this.loading = !this.loading;
+                        }).catch((error) => this.errors = error.response.data.errors);
+                        this.$swal('Deletado', 'Registro deletado com sucesso!', 'success')
+                    } else {
+                        this.$swal('Cancelado', 'Nada foi alterado', 'info')
+                    }
+                })
             }
         }
     }
